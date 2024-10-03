@@ -26,12 +26,8 @@ try:
     pd.set_option('display.max_columns', None)  # Display all columns
     pd.set_option('display.expand_frame_repr', False)  # Prevent line wrapping for large DataFrames
 
-    # Print the entire DataFrame
-    # print(df)
-
     # Drop duplicates
     df_cleaned = df.drop_duplicates()
-    print("\nDataFrame after dropping duplicates:\n", df_cleaned)
 
 except FileNotFoundError:
     print(f"File not found: {file_path}")
@@ -39,7 +35,32 @@ except Exception as e:  # Catch any other exceptions that may arise
     print(f"An error occurred: {e}")
 
 # SPLITTING DATA 
-# Add your code for splitting data here
+try:
+    # Separate features and target variable
+    target_column = 'SP500'  # Replace with your actual target column name
+    X = df_cleaned.drop(columns=[target_column])  # Features
+    y = df_cleaned[target_column]  # Target variable
+
+    # Split the data into training and testing sets (80% train, 20% test)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Print shapes of the datasets
+    print("Training set shape:", X_train.shape)
+    print("Testing set shape:", X_test.shape)
+    print("Training target shape:", y_train.shape)
+    print("Testing target shape:", y_test.shape)
+
+    # Print a sample of the training and testing data
+    print("\nTraining Features:\n", X_train.head())
+    print("\nTesting Features:\n", X_test.head())
+    print("\nTraining Target:\n", y_train.head())
+    print("\nTesting Target:\n", y_test.head())
+
+except Exception as e:
+    print(f"An error occurred during data splitting: {e}")
+
+# Print the cleaned DataFrame
+print("\nCleaned DataFrame:\n", df_cleaned)
 
 # ALGO MODEL SELECTION
 # Add your code for model selection here
