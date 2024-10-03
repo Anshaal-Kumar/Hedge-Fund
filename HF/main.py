@@ -7,10 +7,27 @@
 
 import pandas as pd
 import numpy as np
+
+#graph plotting
 import matplotlib.pyplot as plt
+
+#split test
 from sklearn.model_selection import train_test_split
+
+#evaluate 
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
+
+#fine tuning
+from sklearn.linear_model import Ridge
+from sklearn.model_selection import GridSearchCV
+
+# Visualize code 
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+
 
 # Load your data
 file_path = "../archive/SP500.csv"
@@ -75,6 +92,9 @@ else:
         # Make predictions on the test set
         y_pred = model.predict(X_test)
 
+# EVALUATE MODEL
+# Add your code for model evaluation here
+
         # Evaluate the model
         mse = mean_squared_error(y_test, y_pred)
         r2 = r2_score(y_test, y_pred)
@@ -91,17 +111,98 @@ else:
         plt.show()
 
 
-# EVALUATE MODEL
-# Add your code for model evaluation here
+
 
 # FINE TUNING 
 # Add your code for fine-tuning here
+# Define the model
+ridge = Ridge()
+
+# Set the hyperparameter grid
+param_grid = {'alpha': [0.1, 1, 10, 100]}
+
+# Use GridSearchCV for hyperparameter tuning
+grid_search = GridSearchCV(ridge, param_grid, cv=5, scoring='neg_mean_squared_error')
+grid_search.fit(X_train, y_train)
+
+# Best parameters
+print("Best parameters:", grid_search.best_params_)
+best_model = grid_search.best_estimator_
+
+
 
 # PREDICT
 # Add your prediction code here
+# Assuming you have already trained your model and have the following variables:
+# model (the trained model)
+# X_test (the test features)
+# y_test (the actual target values for the test set)
+
+# Make predictions
+y_pred = model.predict(X_test)
+
+# Print the predicted values
+print("Predicted values:", y_pred)
+
+# Print the actual values for comparison
+print("Actual values:", y_test.values)
+
+# Evaluate the model's performance using metrics like Mean Squared Error and R-squared
+mse = mean_squared_error(y_test, y_pred)
+r_squared = r2_score(y_test, y_pred)
+
+print(f"Mean Squared Error: {mse}")
+print(f"R-squared: {r_squared}")
+
+# Optional: Visualize the predictions vs actual values
+plt.figure(figsize=(10, 5))
+plt.scatter(y_test, y_pred, color='blue', label='Predicted vs Actual')
+plt.plot(y_test, y_test, color='red', linewidth=2, label='Perfect Prediction Line')
+plt.title('Predicted vs Actual Values')
+plt.xlabel('Actual Values')
+plt.ylabel('Predicted Values')
+plt.legend()
+plt.show()
+
 
 # VISUALIZE
 # Add your visualization code here
+
+# Assuming y_test contains actual values and y_pred contains predicted values
+
+# 1. Scatter Plot of Predicted vs. Actual Values
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x=y_test, y=y_pred)
+plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], color='red', linestyle='--')  # Line of equality
+plt.title('Predicted vs. Actual Values')
+plt.xlabel('Actual Values')
+plt.ylabel('Predicted Values')
+plt.grid()
+plt.show()
+plt.savefig('predicted_vs_actual.png')  # Save the plot as an image
+
+
+# 2. Residual Plot
+residuals = y_test - y_pred
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x=y_pred, y=residuals)
+plt.axhline(0, color='red', linestyle='--')  # Line at 0
+plt.title('Residual Plot')
+plt.xlabel('Predicted Values')
+plt.ylabel('Residuals')
+plt.grid()
+plt.show()
+
+# 3. Line Plot of Actual vs. Predicted Values Over Time
+plt.figure(figsize=(12, 6))
+plt.plot(df['DATE'].iloc[-len(y_test):], y_test, label='Actual Values', color='blue')
+plt.plot(df['DATE'].iloc[-len(y_test):], y_pred, label='Predicted Values', color='orange')
+plt.title('Actual vs. Predicted Values Over Time')
+plt.xlabel('Date')
+plt.ylabel('Values')
+plt.legend()
+plt.grid()
+plt.show()
 
 # DEPLOY
 # Add your deployment code here
