@@ -18,19 +18,3 @@ predictions = model.predict(df_new)
 # Output predictions
 print("Predicted values:", predictions)
 
-# Example to evaluate predictions against true values
-# If you have true values (e.g., from a CSV)
-# df_test = pd.read_csv('test_data.csv')
-# X_test = df_test.drop(columns=['SP500', 'DATE'])  # Adjust according to your actual dataset
-# y_test = df_test['SP500']
-
-# Make predictions on the test set
-# y_pred = model.predict(X_test)
-
-# Calculate evaluation metrics
-# mse = mean_squared_error(y_test, y_pred)
-# r_squared = r2_score(y_test, y_pred)
-
-# Print evaluation results
-# print(f"Mean Squared Error: {mse}")
-# print(f"R-squared: {r_squared}")
