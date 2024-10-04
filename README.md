@@ -2,8 +2,9 @@
 Hedge Fund Algos
 
 S&P500
+Accuracy = -121%
 
-Fun little Machine Learning project which predicts stock prices!!!
+First fun little Machine Learning project which predicts stock prices!!!
 
 Predict the stock price doe S&P 500 index
 - Uses Linear Regression only!!!
