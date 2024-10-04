@@ -206,3 +206,9 @@ plt.show()
 
 # DEPLOY
 # Add your deployment code here
+import joblib
+
+# Save the model
+joblib.dump(model, 'linear_regression_model.pkl')
+
+
